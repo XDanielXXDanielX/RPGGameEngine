@@ -1,0 +1,111 @@
+Map file format
+
+Extension : .mif [Map Interactive File]
+
+Concept : A map made with customizable blocks (squares). One block is a place where the player can or cannot stay.
+
+Specs:
+
+Size@N@[code]{{img_in_png}}.../////X!!Y/////\N.../////\N......
+
+N is the key of the block style, then the code is the code spec.
+As much block style as you want can be put in the same file ( in the limit of your unsigned long long int size ).
+The floors are in descending order
+The code must follow these specs:
+
+0 : Block with no interruption. Both players, NPCs and ennemies can walk on it.
+1 : Block where Player can walk
+2 : Block where NPCs can walk
+3 : Block where enemies can walk
+4 : Block where Players and NPCs can walk
+5 : Block where Players and enemies can walk
+6 : Block where NPCs and enemies can walk
+
+7 : Block where Players, NPCs and ennemies take damages
+8 : Block where Player take damages
+9 : Block where NPCs take damages
+10 : Block where enemies take damages
+11 : Block where Players and NPCs take damages
+12 : Block where Players and enemies take damages
+13 : Block where NPCs and enemies take damages
+
+14 : Block where nobody can go ( interruption )
+15 : Block where Player can't go ( interruption )
+16 : Block where NPCs can't go ( interruption )
+17 : Block where enemies can't go ( interruption )
+18 : Block where Players and NPCs can't go ( interruption )
+19 : Block where Players and enemies can't go ( interruption )
+20 : Block where NPCs and enemies can't go ( interruption )
+
+21 : Block where Players, NPCs and ennemies die
+22 : Block where Player die
+23 : Block where NPCs die
+24 : Block where enemies die
+25 : Block where Players and NPCs die
+26 : Block where Players and enemies die
+27 : Block where NPCs and enemies die
+
+21 : Block where Players, NPCs and ennemies teleport
+22 : Block where Player teleport
+23 : Block where NPCs teleport
+24 : Block where enemies teleport
+25 : Block where Players and NPCs teleport
+26 : Block where Players and enemies teleport
+27 : Block where NPCs and enemies teleport
+
+28 : Block with no interruption. Both players, NPCs and ennemies can walk on it, but which is dark or invisible and should be revealed.
+29 : Block where Player can walk, but which is dark or invisible and should be revealed
+30 : Block where NPCs can walk, but which is dark or invisible and should be revealed
+31 : Block where enemies can walk, but which is dark or invisible and should be revealed
+32 : Block where Players and NPCs can walk, but which is dark or invisible and should be revealed
+33 : Block where Players and enemies can walk, but which is dark or invisible and should be revealed
+34 : Block where NPCs and enemies can walk, but which is dark or invisible and should be revealed
+
+35 : Block where Players, NPCs and ennemies take damages, but which is dark or invisible and should be revealed
+36 : Block where Player take damages, but which is dark or invisible and should be revealed
+37 : Block where NPCs take damages, but which is dark or invisible and should be revealed
+38 : Block where enemies take damages, but which is dark or invisible and should be revealed
+39 : Block where Players and NPCs take damages, but which is dark or invisible and should be revealed
+40 : Block where Players and enemies take damages, but which is dark or invisible and should be revealed
+41 : Block where NPCs and enemies take damages, but which is dark or invisible and should be revealed
+
+42 : Block where nobody can go ( interruption ), but which is dark or invisible and should be revealed
+43 : Block where Player can't go ( interruption ), but which is dark or invisible and should be revealed
+44 : Block where NPCs can't go ( interruption ), but which is dark or invisible and should be revealed
+45 : Block where enemies can't go ( interruption ), but which is dark or invisible and should be revealed
+46 : Block where Players and NPCs can't go ( interruption ), but which is dark or invisible and should be revealed
+47 : Block where Players and enemies can't go ( interruption ), but which is dark or invisible and should be revealed
+48 : Block where NPCs and enemies can't go ( interruption ), but which is dark or invisible and should be revealed
+
+49 : Block where Players, NPCs and ennemies die, but which is dark or invisible and should be revealed
+50 : Block where Player die, but which is dark or invisible and should be revealed
+51 : Block where NPCs die, but which is dark or invisible and should be revealed
+52 : Block where enemies die, but which is dark or invisible and should be revealed
+53 : Block where Players and NPCs die, but which is dark or invisible and should be revealed
+54 : Block where Players and enemies die, but which is dark or invisible and should be revealed
+55 : Block where NPCs and enemies die, but which is dark or invisible and should be revealed
+
+56 : Block where Players, NPCs and ennemies teleport, but which is dark or invisible and should be revealed
+57 : Block where Player teleport, but which is dark or invisible and should be revealed
+58 : Block where NPCs teleport, but which is dark or invisible and should be revealed
+59 : Block where enemies teleport, but which is dark or invisible and should be revealed
+60 : Block where Players and NPCs teleport, but which is dark or invisible and should be revealed
+61 : Block where Players and enemies teleport, but which is dark or invisible and should be revealed
+62 : Block where NPCs and enemies teleport, but which is dark or invisible and should be revealed
+
+If an additional information must be set in the code, it will be with between # set.
+A location is as {1;2;3} written ( first floor beginning on the top, X = 2, Y = 3 ) (the origin is on the left-top corner).
+A Range is as {1;1;1}:{3;50;50}+{2;51;1}:{3:51:50}+{3:52:50} written. the : means a range and the + means an addition between blocks in order to create ranges.
+IE = Item equipped
+IU = Item used
+The arrow -> means a trasformation in the nature of the block when the previous statement is succeded. The two blocks must be between || set in order to separate them
+EXs : [7#15#] in order to inflict all the characters 15 damages.
+      [8#5%#BM##] in order to inflict to the player 5 percent of his life points in damages for each block move.
+      [11#5%#AM##] in order to inflict to the player 5 percent of his life points in damages for eachmove.
+      [21#{3;50;25}#] in order to teleport each character that goes on the block in the third floor beginning on the top in position ( =block ) x=50 ; y = 25.
+      [28#PNG#P#{2;4;5}:{2;24;35}###] in order to make the block visible when a player is on the range defined by the square in the second floor defined by its extrimities {2;4;5} (X=4;Y=5) and {2;24;35}. When this statement isn't true, the PNG image will be displayed on the block. You can also make 3D polygons.
+      [28#PNG#PNG#IE#15#RANGE#####] in order to display the blocks when the item 15 (ID) is used in the RANGE zone, And display the second PNG where you are in but the item isn't used.
+      [28#PNG#PNG#IU#15+16#RANGE#####] in order to display the blocks when one of the item 15 or 16 is used in the RANGE zone, And display the second PNG where you are in but the item isn't used.
+      [IE#20#IU#15###|14|->|0#PNG#|] in order, for instance, to set a door which when the key is used on it or the magical key is equipped, the door opens, letting the characters go and showing the PNG image.
+
+
