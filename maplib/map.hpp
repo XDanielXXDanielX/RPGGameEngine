@@ -1,7 +1,13 @@
+#ifndef MAP_RPG_GE_HPP_INCLUDED
+#define MAP_RPG_GE_HPP_INCLUDED
 #include <iostream>
 #include <SFML/Graphics>
 
 namespace mapper{
+
+  namespace tools{
+    std::vector<std::string> cuts(std::string const& str, std::string const& list);
+  }
 
   template<typename T>
 
@@ -67,6 +73,7 @@ namespace mapper{
     std::vector<blocks&> return_designated_blocks(interactive_map const& gameMap);
   protected:
     std::vector<location> blocks_pos;
+    void sort(void);
   };
 
   class Player{
@@ -113,3 +120,5 @@ namespace mapper{
 
   };
 }
+
+#endif

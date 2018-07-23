@@ -1,5 +1,32 @@
 #include "map.hpp"
 
+std::vector<std::string> mapper::tools::cuts(std::string const& str,
+                                             std::string const& list){
+  std::vector<std::string> result;
+  std::vector<char> cutter;
+  for( char c : list){
+    cutter.push_back(c);
+  }
+  result.push_back("");
+  bool is = false;
+  for( char c : str){
+    for( char d : cutter){
+      if( c == d){
+        is = true;
+        break;
+      }
+    }
+    if(is){
+      cutter.push_back("");
+    }else{
+      result[result.size()-1] = result[result.size()-1] + c;
+    }
+  }
+  if(result[result.size()-1] == ""){
+    result.pop_back();
+  }
+}
+
 tiny_location mapper::build_tiny_location(T x, T y, T z){
   tiny_location temp;
   temp.x = x;
@@ -186,5 +213,162 @@ mapper::range::range(void){
 }
 
 mapper::range::range(std::string code){
+  std::vector<std::string> on_plus_cutter = tools::cuts(code, "+");
+  std::vector<std::string[1]> parsed;
+  std::vector<std::string[1][2]> parsed_coords_s;
+  std::vector<T[1][2]> parsed_coords_n;
+  for( std::string s : on_plus_cutter){
+    std::vector<std::string> tempv;
+    std::string[1] tempa;
+    if(s.find(":") != std::string::npos){
+      tempv = tools::cuts(s, ":");
+      tempa[0] = tempv[0];
+      tempa[1] = tempv[1];
+      parsed.push_back(tempa);
+    }else{
+      tempa[0] = s;
+      tempa[1] = "";
+    }
+  }
 
+  for(std::string s1[1] : parsed){
+    std::string[1][2] tempa;
+    std::vector<std::string> tempv;
+    if(s1 != ""){
+      tempv = tools::cuts(s2, "{};");
+    }
+    for(std::string& scrut[1] : tempa){
+      if(s1 != ""){
+        scrut[0] = tempv[0];
+        scrut[1] = tempv[1];
+        scrut[2] = tempv[2];
+      }
+      else{
+        scrut[0] = "";
+        scrut[1] = "";
+        scrut[2] = "";
+      }
+    }
+    parsed_coords_s.push_back(tempa);
+  }
+
+  int i, j, y = 0;
+  for(std::string scrut1[1][2] : parsed_coords_s){
+    T n1[1][2];
+    for(std::string scrut2[2] : scrut1){
+      T n2[2];
+      for(std::string scrut3 : scrut2){
+        T n3;
+        if(n3 != ""){
+          n3 = stoll(scrut3);
+        }
+        else{
+          n3 = static_cast<long long int>(-1);
+        }
+        n2[y] = n3;
+        y++;
+      }
+      n1[j] = n2;
+      j++;
+    }
+    parsed_coords_n.push_back(n1);
+  }
+
+  std::vector<std::vector<std::unique_ptr<location> > > parsedl;
+  for(long long int scrutn1[1][2] : parsed_coords_n){
+    parsedl.push_back();
+    for(long long int scrutn2[2] : scrutn1){
+      if(scrutn2[0] != -1){
+        parsedl[parsedl.size()-1].push_back(new location(scrutn2[1], scrutn2[2], scrutn2[0]));
+      }
+    }
+  }
+
+  for(std::vector<std::unique_ptr<location> >& scrut : parsedl){
+    if(scrut.size() == 1){
+      blocks_pos.push_back(*(new location(scrut[0]->get_location())));
+    }else if(scrut.size() == 2){
+      tiny_location start = scrut[0]->get_location();
+      tiny_location end = scrut[1]->get_location();
+      tiny_location inc;
+      if(start.x < end.x){
+        if(start.y < end.y){
+          if(start.z < end.z){
+            for(inc.x = start.x; inc.x <= end.x; inc.x++){
+              for(inc.y = start.y; inc.y <= end.y; inc.y++){
+                for(inc.z = start.z; inc.z <= end.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }else{
+            for(inc.x = start.x; inc.x <= end.x; inc.x++){
+              for(inc.y = start.y; inc.y <= end.y; inc.y++){
+                for(inc.z = end.z; inc.z <= start.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }
+        }else{
+          if(start.z < end.z){
+            for(inc.x = start.x; inc.x <= end.x; inc.x++){
+              for(inc.y = end.y; inc.y <= start.y; inc.y++){
+                for(inc.z = start.z; inc.z <= end.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }else{
+            for(inc.x = start.x; inc.x <= end.x; inc.x++){
+              for(inc.y = end.y; inc.y <= begin.y; inc.y++){
+                for(inc.z = end.z; inc.z <= begin.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }
+        }
+      }else{
+        if(start.y < end.y){
+          if(start.z < end.z){
+            for(inc.x = end.x; inc.x <= begin.x; inc.x++){
+              for(inc.y = start.y; inc.y <= end.y; inc.y++){
+                for(inc.z = start.z; inc.z <= end.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }else{
+            for(inc.x = end.x; inc.x <= begin.x; inc.x++){
+              for(inc.y = start.y; inc.y <= end.y; inc.y++){
+                for(inc.z = end.z; inc.z <= start.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }
+        }else{
+          if(start.z < end.z){
+            for(inc.x = end.x; inc.x <= begin.x; inc.x++){
+              for(inc.y = end.y; inc.y <= start.y; inc.y++){
+                for(inc.z = start.z; inc.z <= end.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }else{
+            for(inc.x = end.x; inc.x <= begin.x; inc.x++){
+              for(inc.y = end.y; inc.y <= begin.y; inc.y++){
+                for(inc.z = end.z; inc.z <= begin.z; inc.z++){
+                  blocks_pos.push_back(*(new location(inc)));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  sort();
 }
