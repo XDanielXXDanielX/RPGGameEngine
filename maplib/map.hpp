@@ -59,14 +59,16 @@ namespace mapper{
   public:
     range(void);
     range(std::string code);
+    std::string write_code(void);
     range operator+(location const& a);
     range operator+(range const& a);
+    range operator+(std::string code);
     range& operator=(location const& a);
     range& operator=(range const& a);
-    range operator-(location const& a);
-    range operator-(range const& a);
-    range& operator==(location const& a);
-    range& operator==(range const& a);
+    //range operator-(location const& a);
+    //range operator-(range const& a);
+    bool operator==(location const& a);
+    bool operator==(range const& a);
     //
     //rajouter l'opérateur !=
     //
