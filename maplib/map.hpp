@@ -65,13 +65,10 @@ namespace mapper{
     range operator+(std::string code);
     range& operator=(location const& a);
     range& operator=(range const& a);
-    //range operator-(location const& a);
-    //range operator-(range const& a);
     bool operator==(location const& a);
     bool operator==(range const& a);
-    //
-    //rajouter l'opérateur !=
-    //
+    bool operator!=(location const& a);
+    bool operator!=(range const& a);
     std::vector<blocks&> return_designated_blocks(interactive_map const& gameMap);
   protected:
     std::vector<location> blocks_pos;
