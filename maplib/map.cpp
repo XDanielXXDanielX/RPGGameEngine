@@ -372,3 +372,38 @@ mapper::range::range(std::string code){
   }
   sort();
 }
+
+void mapper::range::sort(void){
+  if(blocks_pos.size()){
+    std::vector<location> organized;
+    int x, y, z = 0;
+    tiny_location max;
+    max = blocks_pos[0].x
+    for( location scrut : blocks_pos){
+      max.x = ((scrut.get_location().x > max.x)?scrut.get_location().x:max.x);
+      max.y = ((scrut.get_location().y > max.y)?scrut.get_location().y:max.y);
+      max.z = ((scrut.get_location().z > max.z)?scrut.get_location().z:max.z);
+    }
+    for(z = 0; z <= max.z; z++){
+      for(y = 0; y <= max.y; y++){
+        for(x = 0; x <= max.x; y++){
+          tiny_location cmp;
+          cmp.x = x;
+          cmp.y = y;
+          cmp.z = z;
+          for( location scrut : blocks_pos){
+            if( scrut == cmp ){
+              organized.push_back(scrut);
+            }
+          }
+        }
+      }
+    }
+    blocks_pos = organized;
+  }
+}
+
+std::string mapper::range::write_code(void){
+  sort();
+
+}

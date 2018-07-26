@@ -114,7 +114,7 @@ namespace mapper{
     Player get_Player(void);
     std::vector<std::shared_ptr<NPC> > get_all_NPCs(void);
     std::vector<std::shared_ptr<Mob> > get_all_Mobs(void);
-    std::vector<std::shared_ptr<NPC> > get_NPC_in_range()
+    std::vector<std::shared_ptr<NPC> > get_NPC_in_range();
   protected:
 
   };
